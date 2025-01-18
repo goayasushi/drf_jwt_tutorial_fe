@@ -1,16 +1,39 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button, Fieldset, Flex, Input, Stack, Text } from "@chakra-ui/react";
 import { Field } from "@/components/ui/field";
 import { PasswordInput } from "@/components/ui/password-input";
 import { useForm } from "react-hook-form";
+import { jwtDecode } from "jwt-decode";
 
 import axiosClient from "@/lib/axiosClient";
 
 export default function Login() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const router = useRouter();
+
+  useEffect(() => {
+    const token = localStorage.getItem("access_token");
+
+    if (token) {
+      try {
+        // decode jwt token
+        const decoded: { exp: number } = jwtDecode(token);
+        // verify jwt token expiration
+        const isExpired = decoded.exp * 1000 < Date.now();
+
+        if (!isExpired) {
+          router.push("/users");
+        } else {
+          localStorage.removeItem("access_token");
+        }
+      } catch (err) {
+        // fraudulent tokens by jwtDecode()
+        localStorage.removeItem("access_token");
+      }
+    }
+  }, [router]);
 
   // form
   type FormValues = {
@@ -35,7 +58,7 @@ export default function Login() {
         localStorage.setItem("access_token", token);
       }
 
-      router.push("/");
+      router.push("/users");
     } catch (err: any) {
       if (err.response && err.response.status === 401) {
         setErrorMessage(err.response.data.message);
