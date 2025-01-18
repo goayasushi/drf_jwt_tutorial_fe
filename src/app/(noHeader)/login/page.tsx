@@ -1,12 +1,12 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button, Fieldset, Flex, Input, Stack, Text } from "@chakra-ui/react";
 import { Field } from "@/components/ui/field";
 import { PasswordInput } from "@/components/ui/password-input";
 import { useForm } from "react-hook-form";
 
-import axios from "axios";
+import axiosClient from "@/lib/axiosClient";
 
 export default function Login() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -26,11 +26,14 @@ export default function Login() {
 
   const handleLogin = async (data: FormValues) => {
     try {
-      const res = await axios.post("http://localhost:8000/account/auth/jwt", {
+      const res = await axiosClient.post("/account/auth/jwt", {
         username: data.username,
         password: data.password,
       });
-      console.log(res.data);
+      const token = res.data.access;
+      if (token) {
+        localStorage.setItem("access_token", token);
+      }
 
       router.push("/");
     } catch (err: any) {
