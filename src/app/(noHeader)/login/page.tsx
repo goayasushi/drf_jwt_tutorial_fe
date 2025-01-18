@@ -1,0 +1,102 @@
+"use client";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { Button, Fieldset, Flex, Input, Stack, Text } from "@chakra-ui/react";
+import { Field } from "@/components/ui/field";
+import { PasswordInput } from "@/components/ui/password-input";
+import { useForm } from "react-hook-form";
+
+import axios from "axios";
+
+export default function Login() {
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const router = useRouter();
+
+  // form
+  type FormValues = {
+    username: string;
+    password: string;
+  };
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormValues>();
+
+  const handleLogin = async (data: FormValues) => {
+    try {
+      const res = await axios.post("http://localhost:8000/account/auth/jwt", {
+        username: data.username,
+        password: data.password,
+      });
+      console.log(res.data);
+
+      router.push("/");
+    } catch (err: any) {
+      if (err.response && err.response.status === 401) {
+        setErrorMessage(err.response.data.message);
+      } else {
+        setErrorMessage("ログインに失敗しました。");
+      }
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit(handleLogin)}>
+      <Flex minH="100vh" align="center" justify="center" bg="gray.50">
+        <Fieldset.Root
+          size="lg"
+          maxW="md"
+          p={6}
+          border="1px solid"
+          borderColor="gray.200"
+          borderRadius="md"
+          boxShadow="md"
+          bg="white"
+        >
+          <Stack>
+            <Fieldset.Legend>ログイン</Fieldset.Legend>
+          </Stack>
+
+          <Fieldset.Content>
+            <Field
+              label="ユーザー名"
+              invalid={!!errors.username}
+              errorText={errors.username?.message}
+            >
+              <Input
+                {...register("username", {
+                  required: "ユーザー名は必須です",
+                })}
+                placeholder="ユーザー名を入力"
+              />
+            </Field>
+
+            <Field
+              label="パスワード"
+              invalid={!!errors.password}
+              errorText={errors.password?.message}
+            >
+              <PasswordInput
+                {...register("password", {
+                  required: "パスワードは必須です",
+                })}
+                placeholder="パスワードを入力"
+              />
+            </Field>
+          </Fieldset.Content>
+          {errorMessage && (
+            <Text color="red.500" fontSize="sm">
+              {errorMessage}
+            </Text>
+          )}
+
+          <Button type="submit" alignSelf="flex-start">
+            ログイン
+          </Button>
+        </Fieldset.Root>
+      </Flex>
+    </form>
+  );
+}
