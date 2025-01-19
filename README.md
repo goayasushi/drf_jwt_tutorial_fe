@@ -15,3 +15,9 @@
 - ライブラリ
   jwt-decode
   https://www.npmjs.com/package/jwt-decode
+
+### global stete
+
+- useContext
+  https://ja.react.dev/reference/react/useContext
+  - ログインユーザーをグローバル管理
