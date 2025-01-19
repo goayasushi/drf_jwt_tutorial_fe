@@ -14,11 +14,11 @@ import {
 } from "@/components/ui/drawer";
 
 import { useUser } from "@/context/UserContext";
-// import { useLogout } from "@/hooks/useLogout";
+import { useLogout } from "@/hooks/useLogout";
 
 export const Header = () => {
   const { user, loading } = useUser();
-  //   const { logout } = useLogout();
+  const { logout } = useLogout();
   console.log(user);
 
   if (loading) {
@@ -56,9 +56,9 @@ export const Header = () => {
           </DrawerHeader>
           <DrawerBody>
             <Text mb={4}>設定</Text>
-            {/* <Link onClick={logout} cursor="pointer">
+            <Link onClick={logout} cursor="pointer">
               ログアウト
-            </Link> */}
+            </Link>
           </DrawerBody>
           <DrawerCloseTrigger />
         </DrawerContent>
