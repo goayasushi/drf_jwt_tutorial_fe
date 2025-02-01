@@ -15,6 +15,7 @@
 - ライブラリ
   tanstack query
   https://tanstack.com/query/latest/docs/framework/react/installation
+  https://zenn.dev/taisei_13046/books/133e9995b6aadf/viewer/c22ed5
 
 ### jwt
 
