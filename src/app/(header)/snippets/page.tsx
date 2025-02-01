@@ -1,7 +1,8 @@
 "use client";
 
-import { Box, Flex, Spinner, Table, Text } from "@chakra-ui/react";
+import { Box, Flex, IconButton, Spinner, Table, Text } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
+import { LuTextSearch, LuArchive, LuPencilLine } from "react-icons/lu";
 
 import axiosClient from "@/lib/axiosClient";
 import { Snippet } from "@/types/snippet";
@@ -40,11 +41,18 @@ export default function Snippets() {
 
       {!isLoading && !isError && (
         <Table.Root size="sm" showColumnBorder variant="outline">
+          <Table.ColumnGroup>
+            <Table.Column htmlWidth="10%" />
+            <Table.Column htmlWidth="50%" />
+            <Table.Column htmlWidth="20%" />
+            <Table.Column />
+          </Table.ColumnGroup>
           <Table.Header>
             <Table.Row>
               <Table.ColumnHeader>ID</Table.ColumnHeader>
               <Table.ColumnHeader>タイトル</Table.ColumnHeader>
               <Table.ColumnHeader>作成者</Table.ColumnHeader>
+              <Table.ColumnHeader>アクション</Table.ColumnHeader>
             </Table.Row>
           </Table.Header>
           <Table.Body>
@@ -53,6 +61,31 @@ export default function Snippets() {
                 <Table.Cell>{snippet.id}</Table.Cell>
                 <Table.Cell>{snippet.title}</Table.Cell>
                 <Table.Cell>{snippet.owner}</Table.Cell>
+                <Table.Cell>
+                  <IconButton
+                    aria-label="detail button"
+                    variant="ghost"
+                    size="sm"
+                    mr={2}
+                  >
+                    <LuTextSearch />
+                  </IconButton>
+                  <IconButton
+                    aria-label="edit button"
+                    variant="ghost"
+                    size="sm"
+                    mr={2}
+                  >
+                    <LuPencilLine />
+                  </IconButton>
+                  <IconButton
+                    aria-label="detail button"
+                    variant="ghost"
+                    size="sm"
+                  >
+                    <LuArchive />
+                  </IconButton>
+                </Table.Cell>
               </Table.Row>
             ))}
           </Table.Body>
