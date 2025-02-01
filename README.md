@@ -10,6 +10,12 @@
   axios
   https://axios-http.com/ja/docs/intro
 
+### データフェッチライブラリ
+
+- ライブラリ
+  tanstack query
+  https://tanstack.com/query/latest/docs/framework/react/installation
+
 ### jwt
 
 - ライブラリ
