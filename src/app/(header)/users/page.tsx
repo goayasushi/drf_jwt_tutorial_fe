@@ -1,9 +1,10 @@
 "use client";
 import { useState, useEffect } from "react";
+import { Box, Flex, Spinner, Table, Text } from "@chakra-ui/react";
 
 import axiosClient from "@/lib/axiosClient";
 import { User } from "@/types/user";
-import { Box, Flex, Spinner, Table, Text } from "@chakra-ui/react";
+import { PaginatedResponse } from "@/types/paginatedResponse";
 
 export default function Users() {
   const [users, setUsers] = useState<User[]>([]);
@@ -12,9 +13,9 @@ export default function Users() {
 
   useEffect(() => {
     axiosClient
-      .get<User[]>("/api/users/")
+      .get<PaginatedResponse<User>>("/api/users/")
       .then((res) => {
-        setUsers(res.data);
+        setUsers(res.data.results);
       })
       .catch((err) => {
         setError(err);
