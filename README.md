@@ -38,3 +38,7 @@
 - アイコン
   react icons
   https://react-icons.github.io/react-icons/icons/lu/
+
+- ハイライトライブラリ
+  react-syntax-highlighter
+  https://github.com/react-syntax-highlighter/react-syntax-highlighter
