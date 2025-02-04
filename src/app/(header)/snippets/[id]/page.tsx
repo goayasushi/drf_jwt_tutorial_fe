@@ -4,6 +4,8 @@ import { Badge, Box, Flex, HStack, Spinner, Text } from "@chakra-ui/react";
 import { Avatar } from "@/components/ui/avatar";
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
+import SyntaxHighlighter from "react-syntax-highlighter/dist/esm/default-highlight";
+import { dracula } from "react-syntax-highlighter/dist/esm/styles/hljs";
 
 import { Snippet } from "@/types/snippet";
 import axiosClient from "@/lib/axiosClient";
@@ -47,7 +49,7 @@ export default function SnippetDetail() {
       )}
 
       {!isLoading && !isError && snippet && (
-        <Box p="4">
+        <Box p="6">
           <HStack mb="2" gap="3">
             <Avatar name={snippet.owner} />
             <Text fontWeight="medium" textStyle="sm">
@@ -60,9 +62,16 @@ export default function SnippetDetail() {
           <HStack mt="2">
             <Badge>{snippet.language}</Badge>
           </HStack>
-          <Text mt="4" fontSize="md" whiteSpace="pre-wrap">
-            {snippet.code}
-          </Text>
+          <Box py="6">
+            <SyntaxHighlighter
+              language={snippet.language}
+              style={dracula}
+              showLineNumbers={snippet.linenos}
+              customStyle={{ padding: "20px", borderRadius: "8px" }}
+            >
+              {snippet.code}
+            </SyntaxHighlighter>
+          </Box>
         </Box>
       )}
     </Box>
