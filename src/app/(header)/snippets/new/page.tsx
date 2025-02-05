@@ -24,6 +24,7 @@ import { useRouter } from "next/navigation";
 
 import { SnippetFormData } from "@/types/snippetFormData";
 import axiosClient from "@/lib/axiosClient";
+import { LANGUAGES_HLJS } from "@/config/availabe_languages_hljs";
 
 export default function SnippetNew() {
   // formの設定
@@ -110,7 +111,7 @@ export default function SnippetNew() {
                       required: "言語は必須です",
                     })}
                     placeholder="言語を選択してください"
-                    items={["Python", "Java", "Javascript"]}
+                    items={LANGUAGES_HLJS}
                   />
                 </NativeSelectRoot>
               </Field>
