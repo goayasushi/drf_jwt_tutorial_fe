@@ -1,14 +1,25 @@
 "use client";
 
-import { Badge, Box, Flex, HStack, Spinner, Text } from "@chakra-ui/react";
+import {
+  Badge,
+  Box,
+  Flex,
+  HStack,
+  IconButton,
+  Spinner,
+  Text,
+} from "@chakra-ui/react";
 import { Avatar } from "@/components/ui/avatar";
+import { LuPencilLine } from "react-icons/lu";
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import SyntaxHighlighter from "react-syntax-highlighter/dist/esm/default-highlight";
 import { dracula } from "react-syntax-highlighter/dist/esm/styles/hljs";
 
 import { Snippet } from "@/types/snippet";
 import axiosClient from "@/lib/axiosClient";
+import { useUser } from "@/context/UserContext";
 
 const fetchSnippetById = async (id: string): Promise<Snippet> => {
   const { data } = await axiosClient.get<Snippet>(`/snippets/${id}/`);
@@ -17,6 +28,8 @@ const fetchSnippetById = async (id: string): Promise<Snippet> => {
 
 export default function SnippetDetail() {
   const { id } = useParams();
+  const { user } = useUser();
+  const router = useRouter();
 
   const {
     data: snippet,
@@ -31,9 +44,6 @@ export default function SnippetDetail() {
 
   return (
     <Box p="6">
-      <Text fontSize="md" mb="4" fontWeight="bold">
-        snippet詳細画面
-      </Text>
       {isLoading && (
         <Flex align="center" justify="center" height="60px">
           <Spinner size="sm" />
@@ -49,30 +59,45 @@ export default function SnippetDetail() {
       )}
 
       {!isLoading && !isError && snippet && (
-        <Box p="6">
-          <HStack mb="2" gap="3">
-            <Avatar name={snippet.owner} />
-            <Text fontWeight="medium" textStyle="sm">
-              {snippet.owner}
+        <>
+          {user?.username === snippet.owner && (
+            <HStack px="6">
+              <IconButton
+                aria-label="edit button"
+                variant="ghost"
+                size="sm"
+                onClick={() => router.push(`/snippets/${id}/edit`)}
+              >
+                <LuPencilLine />
+                <Text>編集する</Text>
+              </IconButton>
+            </HStack>
+          )}
+          <Box p="6">
+            <HStack mb="2" gap="3">
+              <Avatar name={snippet.owner} />
+              <Text fontWeight="medium" textStyle="sm">
+                {snippet.owner}
+              </Text>
+            </HStack>
+            <Text fontSize="2xl" fontWeight="bold">
+              {snippet.title}
             </Text>
-          </HStack>
-          <Text fontSize="2xl" fontWeight="bold">
-            {snippet.title}
-          </Text>
-          <HStack mt="2">
-            <Badge>{snippet.language}</Badge>
-          </HStack>
-          <Box py="6">
-            <SyntaxHighlighter
-              language={snippet.language}
-              style={dracula}
-              showLineNumbers={snippet.linenos}
-              customStyle={{ padding: "20px", borderRadius: "8px" }}
-            >
-              {snippet.code}
-            </SyntaxHighlighter>
+            <HStack mt="2">
+              <Badge>{snippet.language}</Badge>
+            </HStack>
+            <Box py="6">
+              <SyntaxHighlighter
+                language={snippet.language}
+                style={dracula}
+                showLineNumbers={snippet.linenos}
+                customStyle={{ padding: "20px", borderRadius: "8px" }}
+              >
+                {snippet.code}
+              </SyntaxHighlighter>
+            </Box>
           </Box>
-        </Box>
+        </>
       )}
     </Box>
   );
