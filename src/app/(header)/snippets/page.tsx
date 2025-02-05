@@ -42,10 +42,6 @@ export default function Snippets() {
 
   return (
     <Box p="6">
-      <Text fontSize="md" mb="4" fontWeight="bold">
-        snippet一覧
-      </Text>
-
       {isLoading && (
         <Flex align="center" justify="center" height="60px">
           <Spinner size="sm" />
