@@ -1,6 +1,6 @@
 "use client";
 
-import { Flex, Link, Spinner, Text } from "@chakra-ui/react";
+import { Button, Flex, Link, Spinner, Text } from "@chakra-ui/react";
 import { Avatar } from "@/components/ui/avatar";
 import {
   DrawerBackdrop,
@@ -12,11 +12,13 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import { useRouter } from "next/navigation";
 
 import { useUser } from "@/context/UserContext";
 import { useLogout } from "@/hooks/useLogout";
 
 export const Header = () => {
+  const router = useRouter();
   const { user, loading } = useUser();
   const { logout } = useLogout();
   console.log(user);
@@ -38,9 +40,10 @@ export const Header = () => {
       justify="space-between"
       px="6"
       boxShadow="sm"
+      gap="4"
     >
       {/* title */}
-      <Text fontSize="xl" fontWeight="bold">
+      <Text fontSize="xl" fontWeight="bold" marginEnd="auto">
         Awesome App
       </Text>
 
@@ -63,6 +66,7 @@ export const Header = () => {
           <DrawerCloseTrigger />
         </DrawerContent>
       </DrawerRoot>
+      <Button onClick={() => router.push("/snippets/new")}>投稿する</Button>
     </Flex>
   );
 };
