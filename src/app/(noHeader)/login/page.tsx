@@ -58,7 +58,7 @@ export default function Login() {
         localStorage.setItem("access_token", token);
       }
 
-      router.push("/users");
+      router.push("/snippets");
     } catch (err: any) {
       if (err.response && err.response.status === 401) {
         setErrorMessage(err.response.data.message);
