@@ -1,20 +1,12 @@
 "use client";
 
-import {
-  Box,
-  Button,
-  Fieldset,
-  Flex,
-  Input,
-  Stack,
-  Text,
-  Textarea,
-} from "@chakra-ui/react";
+import { Box, Fieldset, Flex, Input, Text, Textarea } from "@chakra-ui/react";
 import { Field } from "@/components/ui/field";
 import {
   NativeSelectField,
   NativeSelectRoot,
 } from "@/components/ui/native-select";
+import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Controller, useForm } from "react-hook-form";
 import SyntaxHighlighter from "react-syntax-highlighter/dist/esm/default-highlight";
@@ -86,10 +78,6 @@ export default function SnippetNew() {
             boxShadow="md"
             bg="white"
           >
-            <Stack>
-              <Fieldset.Legend>新規投稿</Fieldset.Legend>
-            </Stack>
-
             <Fieldset.Content>
               <Field invalid={!!errors.title} errorText={errors.title?.message}>
                 <Input
@@ -165,7 +153,11 @@ export default function SnippetNew() {
                 </Flex>
               </Field>
             </Fieldset.Content>
-            <Button type="submit" alignSelf="flex-start">
+            <Button
+              loading={mutation.isPending}
+              type="submit"
+              alignSelf="flex-start"
+            >
               投稿
             </Button>
             {mutation.isError ? (
