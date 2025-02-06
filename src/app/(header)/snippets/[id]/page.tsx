@@ -18,6 +18,7 @@ import { dracula } from "react-syntax-highlighter/dist/esm/styles/hljs";
 
 import { useUser } from "@/context/UserContext";
 import { useFetchSnippetById } from "@/hooks/useFetchSnippetById";
+import { SnippetDeleteButton } from "@/components/SnippetDeleteButton";
 
 export default function SnippetDetail() {
   const { id } = useParams();
@@ -55,11 +56,13 @@ export default function SnippetDetail() {
                 aria-label="edit button"
                 variant="ghost"
                 size="sm"
+                mr="2"
                 onClick={() => router.push(`/snippets/${id}/edit`)}
               >
                 <LuPencilLine />
                 <Text>編集する</Text>
               </IconButton>
+              <SnippetDeleteButton id={snippet.id} />
             </HStack>
           )}
           <Box p="6">
