@@ -6,30 +6,20 @@ import { useParams, useRouter } from "next/navigation";
 
 import { SnippetFormData } from "@/types/snippetFormData";
 import axiosClient from "@/lib/axiosClient";
-import { Snippet } from "@/types/snippet";
 import { SnippetForm } from "@/components/SnippetForm";
+import { useFetchSnippetById } from "@/hooks/useFetchSnippetById";
 
 export default function SnippetEdit() {
   const { id } = useParams();
   const router = useRouter();
   const queryClient = useQueryClient();
 
-  // snippet取得のフェッチ処理
-  const fetchSnippetById = async (id: string): Promise<Snippet> => {
-    const { data } = await axiosClient.get<Snippet>(`/snippets/${id}/`);
-    return data;
-  };
-
   const {
     data: snippet,
     isLoading,
     isError,
     error,
-  } = useQuery({
-    queryKey: ["snippet", id],
-    queryFn: () => fetchSnippetById(id as string),
-    enabled: !!id,
-  });
+  } = useFetchSnippetById(String(id));
 
   // snippet編集のフェッチ処理
   const fetchEditSnippet = async (editedSnippet: SnippetFormData) => {

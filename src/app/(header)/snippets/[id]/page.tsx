@@ -12,19 +12,12 @@ import {
 import { Avatar } from "@/components/ui/avatar";
 import { LuPencilLine } from "react-icons/lu";
 import { useParams } from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import SyntaxHighlighter from "react-syntax-highlighter/dist/esm/default-highlight";
 import { dracula } from "react-syntax-highlighter/dist/esm/styles/hljs";
 
-import { Snippet } from "@/types/snippet";
-import axiosClient from "@/lib/axiosClient";
 import { useUser } from "@/context/UserContext";
-
-const fetchSnippetById = async (id: string): Promise<Snippet> => {
-  const { data } = await axiosClient.get<Snippet>(`/snippets/${id}/`);
-  return data;
-};
+import { useFetchSnippetById } from "@/hooks/useFetchSnippetById";
 
 export default function SnippetDetail() {
   const { id } = useParams();
@@ -36,11 +29,7 @@ export default function SnippetDetail() {
     isLoading,
     isError,
     error,
-  } = useQuery({
-    queryKey: ["snippet", id],
-    queryFn: () => fetchSnippetById(id as string),
-    enabled: !!id,
-  });
+  } = useFetchSnippetById(String(id));
 
   return (
     <Box p="6">
