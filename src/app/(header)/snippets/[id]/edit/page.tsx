@@ -65,12 +65,7 @@ export default function SnippetEdit() {
 
       {!isLoading && !isError && snippet && (
         <SnippetForm
-          initialData={{
-            title: snippet.title,
-            code: snippet.code,
-            language: snippet.language,
-            linenos: snippet.linenos,
-          }}
+          initialData={snippet}
           onSubmitFn={(editedSnippet) => editSnippet.mutate(editedSnippet)}
           isSubmitting={editSnippet.isPending}
         />
