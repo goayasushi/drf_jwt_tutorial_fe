@@ -21,7 +21,6 @@ export const Header = () => {
   const router = useRouter();
   const { user, loading } = useUser();
   const { logout } = useLogout();
-  console.log(user);
 
   if (loading) {
     return (
@@ -42,12 +41,18 @@ export const Header = () => {
       boxShadow="sm"
       gap="4"
     >
-      {/* title */}
-      <Text fontSize="xl" fontWeight="bold" marginEnd="auto">
+      <Text
+        fontSize="xl"
+        fontWeight="bold"
+        marginEnd="auto"
+        cursor="pointer"
+        onClick={() => {
+          router.push("/snippets/");
+        }}
+      >
         Awesome App
       </Text>
 
-      {/* avatar button */}
       <DrawerRoot>
         <DrawerBackdrop />
         <DrawerTrigger asChild>
@@ -58,7 +63,6 @@ export const Header = () => {
             <DrawerTitle>{user?.username}</DrawerTitle>
           </DrawerHeader>
           <DrawerBody>
-            <Text mb={4}>設定</Text>
             <Link onClick={logout} cursor="pointer">
               ログアウト
             </Link>
