@@ -1,6 +1,6 @@
 export type Snippet = {
   url: string;
-  id: number;
+  id: string;
   title: string;
   code: string;
   linenos: boolean;
