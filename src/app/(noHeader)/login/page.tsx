@@ -1,11 +1,20 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Button, Fieldset, Flex, Input, Stack, Text } from "@chakra-ui/react";
+import {
+  Button,
+  Fieldset,
+  Flex,
+  Input,
+  Link,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
 import { Field } from "@/components/ui/field";
 import { PasswordInput } from "@/components/ui/password-input";
 import { useForm } from "react-hook-form";
 import { jwtDecode } from "jwt-decode";
+import NextLink from "next/link";
 
 import axiosClient from "@/lib/axiosClient";
 
@@ -121,6 +130,10 @@ export default function Login() {
           <Button type="submit" alignSelf="flex-start">
             ログイン
           </Button>
+
+          <Link color="blue.600" as={NextLink} href={"/signup"}>
+            新規登録
+          </Link>
         </Fieldset.Root>
       </Flex>
     </form>
