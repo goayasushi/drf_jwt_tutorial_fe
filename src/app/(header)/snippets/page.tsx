@@ -36,7 +36,7 @@ export default function Snippets() {
     error,
   } = useQuery({ queryKey: ["snippets"], queryFn: fetchSnippets });
 
-  const handleNavigate = (id: number) => {
+  const handleNavigate = (id: string) => {
     router.push(`/snippets/${id}`);
   };
 
