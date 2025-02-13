@@ -4,7 +4,7 @@ import axios, { AxiosInstance } from "axios";
 
 // create axios instance
 const axiosClient: AxiosInstance = axios.create({
-  baseURL: "http://localhost:8000",
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
 });
 
 // request interceptor
